@@ -20,4 +20,8 @@ public class User {
     public String getName() {
         return name;
     }
+    public User(String email, String name){
+        this.email = email;
+        this.name = name;
+    }
 }

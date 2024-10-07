@@ -1,13 +1,8 @@
-import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import io.qameta.allure.Step;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
 public class UserLoginTest {
@@ -32,14 +27,22 @@ public class UserLoginTest {
         UserCredentials creds = UserCredentials.fromUser(user, token);
         ValidatableResponse response = client.loginUser(creds);
 
-        response.assertThat().statusCode(200);
+        response.assertThat().statusCode(200).body("success", is(true));
+    }
+    @Test
+    public void loginUserWithoutPass() {
+
+        UserCredentials creds = UserCredentials.withoutPassword(user.getEmail(),token);
+        ValidatableResponse response = client.loginUser(creds);
+
+        response.assertThat().statusCode(401).body("success", is(false));
     }
 
 @After
 public void deleteUser_afterTest() {
     if (token != null) {
         client.deleteUser(token);
-        //Рабочий комп не дает провести этот метод, поэтому всегда 404
+
     }
 }
     }

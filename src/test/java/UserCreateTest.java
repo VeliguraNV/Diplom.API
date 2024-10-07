@@ -1,11 +1,9 @@
-import io.qameta.allure.Step;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
+
 import static org.hamcrest.CoreMatchers.is;
 
 public class UserCreateTest {
@@ -48,8 +46,9 @@ public void createUserWithoutPass() {
 }
     @After
     public void deleteUser_afterTest() {
-                    client.deleteUser(token);
-            //Рабочий комп не дает провести этот метод, поэтому всегда 404
+        if (token != null) {
+            client.deleteUser(token);
         }
     }
+}
 
